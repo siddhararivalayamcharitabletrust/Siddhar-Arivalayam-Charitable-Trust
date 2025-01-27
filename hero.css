@@ -1,0 +1,80 @@
+.gal-image >:hover{
+
+  transition: transform 0.3s ease-in-out;
+  transform: scale(1.2);
+
+}
+.gal-image{
+ row-gap: 30px
+ ;
+}
+.gals-image >:hover{
+
+  transition: transform 0.3s ease-in-out;
+  transform: scale(1.1);
+
+}
+
+  
+.mobile-container {
+
+  margin: auto;
+  height: 500px;
+  color: white;
+  border-radius: 10px;
+}
+
+.topnav {
+  overflow: hidden;
+  background-color: black;
+  position: relative;
+}
+
+.topnav #myLinks {
+  display: none;
+}
+
+.topnav a {
+  color: white;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+  display: block;
+}
+
+.topnav a.icon {
+  background: #24ac75;
+  display: block;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+/* Default styles for nav-links */
+#navigation {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.nav-link a {
+  display: block;
+  color: black; /* Default text color */
+  text-align: center;
+  padding: 10px 15px;
+  text-decoration: none;
+}
+
+.nav-link a:hover {
+  background-color: #f0f0f0; /* Background color on hover */
+}
+
+.nav-link a.active {
+  background-color: #09cc7f; /* Background color for active link */
+  color: white; /* Text color for active link */
+}
+
+
+
+

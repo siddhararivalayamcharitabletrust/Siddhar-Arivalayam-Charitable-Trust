@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sivanayama Sudoku</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Sivanayama Sudoku</h1>
+        <div id="sudoku-board"></div>
+        <button id="solve-btn">Solve</button>
+        <button id="reset-btn">Reset</button>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
+<style>
+    * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    text-align: center;
+}
+
+h1 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+#sudoku-board {
+    display: grid;
+    grid-template-columns: repeat(9, 40px);
+    grid-gap: 1px;
+    margin: 0 auto;
+    padding: 5px;
+    background-color: #444;
+}
+
+.cell {
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    line-height: 40px;
+    font-size: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    cursor: pointer;
+}
+
+.cell[contenteditable="true"] {
+    background-color: #f9f9f9;
+}
+
+button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #ddd;
+}
+
+</style>
+<script>
+    const letters = ['ஸி', 'வ', 'ந', 'ய', 'ம'];
+const boardSize = 9;
+let sudokuBoard = Array(boardSize).fill(null).map(() => Array(boardSize).fill(''));
+
+// Function to create the Sudoku grid in the DOM
+function createBoard() {
+    const boardElement = document.getElementById('sudoku-board');
+    boardElement.innerHTML = ''; // Clear previous board
+    for (let row = 0; row < boardSize; row++) {
+        for (let col = 0; col < boardSize; col++) {
+            const cell = document.createElement('div');
+            cell.classList.add('cell');
+            cell.contentEditable = sudokuBoard[row][col] === '' ? 'true' : 'false';
+            cell.textContent = sudokuBoard[row][col];
+            boardElement.appendChild(cell);
+        }
+    }
+}
+
+// Function to check if letter can be placed in the position
+function isValid(board, row, col, letter) {
+    for (let i = 0; i < 9; i++) {
+        if (board[row][i] === letter || board[i][col] === letter) {
+            return false;
+        }
+    }
+    const startRow = Math.floor(row / 3) * 3;
+    const startCol = Math.floor(col / 3) * 3;
+    for (let i = 0; i < 3; i++) {
+        for (let j = 0; j < 3; j++) {
+            if (board[startRow + i][startCol + j] === letter) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+// Recursive function to fill the board
+function fillBoard(board) {
+    for (let row = 0; row < 9; row++) {
+        for (let col = 0; col < 9; col++) {
+            if (board[row][col] === '') {
+                for (let letter of letters) {
+                    if (isValid(board, row, col, letter)) {
+                        board[row][col] = letter;
+                        if (fillBoard(board)) {
+                            return true;
+                        }
+                        board[row][col] = '';
+                    }
+                }
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+// Initialize the board with some letters
+function initializeBoard() {
+    sudokuBoard = Array(boardSize).fill(null).map(() => Array(boardSize).fill(''));
+    sudokuBoard[0][0] = 'ஸி'; // Pre-filled cells as an example
+    sudokuBoard[1][3] = 'வ';
+    sudokuBoard[2][2] = 'ந';
+    createBoard();
+}
+
+// Solve the Sudoku board
+function solveBoard() {
+    fillBoard(sudokuBoard);
+    createBoard();
+}
+
+// Reset the board
+function resetBoard() {
+    initializeBoard();
+}
+
+// Set up the event listeners
+document.getElementById('solve-btn').addEventListener('click', solveBoard);
+document.getElementById('reset-btn').addEventListener('click', resetBoard);
+
+// Initialize the game on page load
+initializeBoard();
+
+</script>
